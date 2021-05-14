@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+  font-size: x-large;
+  text-decoration: underline;
+}
+
+.button {
+  display: none;
+}
