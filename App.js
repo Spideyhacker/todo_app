@@ -3,28 +3,30 @@ import { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import firebase from "firebase";
 import { db } from "./firebase_config";
+import { Button } from "@material-ui/core";
+import TodoListItem from "./Todo";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, settodos] = useState([]);
   // function to add todo to firebase
   const [todoInput, setTodoInput] = useState("");
 
   useEffect(() => {
-    getTodos();
+    gettodos();
   }, []);
 
-  function getTodos() {
-    var localTodos = [];
-    db.collection("Todos").onSnapshot(function (querySnapshot) {
+  function gettodos() {
+    var localtodos = [];
+    db.collection("todos").onSnapshot(function (querySnapshot) {
       querySnapshot.docs.map((doc) => {
-        localTodos.push({
+        localtodos.push({
           id: doc.id,
           todo: doc.data().todo,
-          in_progress: doc.data().inprogress,
+          inprogress: doc.data().inprogress,
         });
       });
 
-      setTodos(localTodos);
+      settodos(localtodos);
     });
   }
 
@@ -33,8 +35,8 @@ function App() {
   function addTodo(e) {
     e.preventDefault();
 
-    db.collection("Todos").add({
-      in_progress: true,
+    db.collection("todos").add({
+      inprogress: true,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       todo: todoInput,
     });
@@ -42,43 +44,45 @@ function App() {
     setTodoInput("");
   }
   return (
-    <div className="App">
-      <h1 className="App-header">Shashwat Tiwari's To-do App</h1>
-      <form>
-        <TextField
-          id="todo"
-          label="Write a Todo"
-          className="task"
-          variant="outlined"
-          value={todoInput}
-          onChange={(e) => {
-            setTodoInput(e.target.value);
-            if (e.target.value.length > 120) {
-              e.target.style.color = "red";
-            } else {
-              e.target.style.color = "#000";
-            }
-          }}
-          style={{ maxwidth: "150px", width: "30vw", marginleft: "100px" }}
-        />
+    <div>
+      <div>
+        <h1 className="App-header">Shashwat Tiwari's To-do App</h1>
+      </div>
+      <div>
+        <form>
+          <TextField
+            id="todo"
+            label="Write a Todo"
+            variant="outlined"
+            value={todoInput}
+            onChange={(e) => {
+              setTodoInput(e.target.value);
+              if (e.target.value.length > 120) {
+                e.target.style.color = "red";
+              } else {
+                e.target.style.color = "#000";
+              }
+            }}
+          />
 
-        <button
-          type="submit"
-          className="button"
-          variant="contained"
-          onClick={addTodo}
-        >
-          Submit
-        </button>
-      </form>
+          <Button
+            className="btn"
+            type="submit"
+            variant="contained"
+            onClick={addTodo}
+          ></Button>
+        </form>
+      </div>
 
-      {todos.map((todo) => (
-        <TodoListItem
-          todo={todo.todo}
-          in_progress={todo.inprogress}
-          id={todo.id}
-        />
-      ))}
+      <div className="todos">
+        {todos.map((todo) => (
+          <TodoListItem
+            todo={todo.todo}
+            inprogress={todo.inprogress}
+            id={todo.id}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,13 @@
-.App {
+.App-header {
   text-align: center;
-  font-size: x-large;
-  text-decoration: underline;
+  font-size: 50px;
+  font-family: cursive;
 }
-
+.testfield {
+  display: flex;
+  justify-content: center;
+}
 .button {
   display: none;
+  flex-direction: row;
 }

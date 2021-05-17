@@ -1,0 +1,53 @@
+.todoList {
+  display: flex;
+  flex-direction: row;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+/* @media screen and (min-width: 500px) {
+  .todoList {
+    margin-left: 95px !important;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .todoList {
+    margin-left: 135px !important;
+  }
+}
+@media screen and (min-width: 700px) {
+  .todoList {
+    margin-left: 200px !important;
+  }
+}
+@media screen and (min-width: 900px) {
+  .todoList {
+    margin-left: 250px !important;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .todoList {
+    margin-left: 270px !important;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .todoList {
+    margin-left: 320px !important;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .todoList {
+    margin-left: 420px !important;
+  }
+}
+@media screen and (min-width: 1250) {
+  .todoList {
+    margin-left: 380px !important;
+  }
+}
+@media screen and (min-width: 1300) {
+  .todoList {
+    margin-left: 400px !important;
+  }
+} */

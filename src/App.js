@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import firebase from "firebase";
 import { db } from "./firebase_config";
+import TodoListItems from "./todo";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -14,17 +15,16 @@ function App() {
   }, []);
 
   function getTodos() {
-    var localTodos = [];
-    db.collection("Todos").onSnapshot(function (querySnapshot) {
-      querySnapshot.docs.map((doc) => {
-        localTodos.push({
+    db.collection("todos").onSnapshot(function (querySnapshot) {
+      setTodos(
+        querySnapshot.docs.map((doc) => ({
           id: doc.id,
           todo: doc.data().todo,
-          in_progress: doc.data().inprogress,
-        });
-      });
+          inprogress: doc.data().inprogress,
+        }))
+      );
 
-      setTodos(localTodos);
+      // setTodos(localtodos);
     });
   }
 
@@ -33,18 +33,27 @@ function App() {
   function addTodo(e) {
     e.preventDefault();
 
-    db.collection("Todos").add({
-      in_progress: true,
+    db.collection("todos").add({
+      inprogress: true,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       todo: todoInput,
     });
 
     setTodoInput("");
   }
+
+  // function TextListItem({ todo, inprogress, id }) {
+  //   return (
+  //     <div>
+  //       <p>{todo}</p>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="App">
       <h1 className="App-header">Shashwat Tiwari's To-do App</h1>
-      <form>
+      <form className="textfield">
         <TextField
           id="todo"
           label="Write a Todo"
@@ -59,7 +68,7 @@ function App() {
               e.target.style.color = "#000";
             }
           }}
-          style={{ maxwidth: "150px", width: "30vw", marginleft: "100px" }}
+          style={{ maxwidth: "150px", width: "30vw" }}
         />
 
         <button
@@ -73,9 +82,9 @@ function App() {
       </form>
 
       {todos.map((todo) => (
-        <TodoListItem
+        <TodoListItems
           todo={todo.todo}
-          in_progress={todo.inprogress}
+          inprogress={todo.inprogress}
           id={todo.id}
         />
       ))}
@@ -84,3 +93,7 @@ function App() {
 }
 
 export default App;
+
+// todo={todo.todo}
+//           inprogress={todo.inprogress}
+//           // id={todo.id}

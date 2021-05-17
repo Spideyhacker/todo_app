@@ -2,8 +2,14 @@
   text-align: center;
   font-size: x-large;
   text-decoration: underline;
+  display: flex;
 }
-
+.btn {
+  display: none;
+}
+.todos {
+  display: flex;
+}
 .button {
   display: none;
 }
