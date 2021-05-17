@@ -3,30 +3,28 @@ import { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import firebase from "firebase";
 import { db } from "./firebase_config";
-import { Button } from "@material-ui/core";
-import TodoListItem from "./Todo";
+import TodoListItems from "./todo";
 
 function App() {
-  const [todos, settodos] = useState([]);
+  const [todos, setTodos] = useState([]);
   // function to add todo to firebase
   const [todoInput, setTodoInput] = useState("");
 
   useEffect(() => {
-    gettodos();
+    getTodos();
   }, []);
 
-  function gettodos() {
-    var localtodos = [];
+  function getTodos() {
     db.collection("todos").onSnapshot(function (querySnapshot) {
-      querySnapshot.docs.map((doc) => {
-        localtodos.push({
+      setTodos(
+        querySnapshot.docs.map((doc) => ({
           id: doc.id,
           todo: doc.data().todo,
           inprogress: doc.data().inprogress,
-        });
-      });
+        }))
+      );
 
-      settodos(localtodos);
+      // setTodos(localtodos);
     });
   }
 
@@ -43,48 +41,57 @@ function App() {
 
     setTodoInput("");
   }
+
+  // function TextListItem({ todo, inprogress, id }) {
+  //   return (
+  //     <div>
+  //       <p>{todo}</p>
+  //     </div>
+  //   );
+  // }
+
   return (
-    <div>
-      <div>
-        <h1 className="App-header">Shashwat Tiwari's To-do App</h1>
-      </div>
-      <div>
-        <form>
-          <TextField
-            id="todo"
-            label="Write a Todo"
-            variant="outlined"
-            value={todoInput}
-            onChange={(e) => {
-              setTodoInput(e.target.value);
-              if (e.target.value.length > 120) {
-                e.target.style.color = "red";
-              } else {
-                e.target.style.color = "#000";
-              }
-            }}
-          />
+    <div className="App">
+      <h1 className="App-header">Shashwat Tiwari's To-do App</h1>
+      <form className="textfield">
+        <TextField
+          id="todo"
+          label="Write a Todo"
+          className="task"
+          variant="outlined"
+          value={todoInput}
+          onChange={(e) => {
+            setTodoInput(e.target.value);
+            if (e.target.value.length > 120) {
+              e.target.style.color = "red";
+            } else {
+              e.target.style.color = "#000";
+            }
+          }}
+          style={{ maxwidth: "150px", width: "30vw" }}
+        />
 
-          <Button
-            className="btn"
-            type="submit"
-            variant="contained"
-            onClick={addTodo}
-          ></Button>
-        </form>
-      </div>
+        <button
+          type="submit"
+          className="button"
+          variant="contained"
+          onClick={addTodo}
+        ></button>
+      </form>
 
-      <div className="todos">
-        {todos.map((todo) => (
-          <TodoListItem
-            todo={todo.todo}
-            inprogress={todo.inprogress}
-            id={todo.id}
-          />
-        ))}
-      </div>
+      {todos.map((todo) => (
+        <TodoListItems
+          todo={todo.todo}
+          inprogress={todo.inprogress}
+          id={todo.id}
+        />
+      ))}
     </div>
   );
 }
 
 export default App;
+
+// todo={todo.todo}
+//           inprogress={todo.inprogress}
+//           // id={todo.id}

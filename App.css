@@ -1,15 +1,14 @@
-.App {
+.App-header {
   text-align: center;
-  font-size: x-large;
-  text-decoration: underline;
-  display: flex;
+  font-size: 50px;
+  font-family: cursive;
 }
-.btn {
-  display: none;
-}
-.todos {
+.textfield {
   display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 .button {
   display: none;
+  flex-direction: row;
 }
